@@ -33,7 +33,7 @@ const ContactForm = () => {
 
     // Send the form data to the backend
     try {
-      const response = await fetch('http://localhost:5000/api/user', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,10 +141,18 @@ const ContactForm = () => {
         </div>
 
         <div style={styles.socialIcons}>
-          <a href="#"><i className="fab fa-instagram"></i></a>
-          <a href="#"><i className="fab fa-linkedin"></i></a>
-          <a href="#"><i className="fab fa-whatsapp"></i></a>
-          <a href="#"><i className="far fa-envelope"></i></a>
+          <a href="https://www.instagram.com/kahbadesignstudio" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/kahba-design-studio" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-linkedin"></i>
+          </a>
+          <a href="https://wa.me/918585981411" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-whatsapp"></i>
+          </a>
+          <a href="mailto:kahbadesignstudio@gmail.com">
+            <i className="far fa-envelope"></i>
+          </a>
         </div>
       </div>
     </div>
