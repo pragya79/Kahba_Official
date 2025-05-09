@@ -1,0 +1,90 @@
+/* Overall Page Layout */
+.contact-us-page {
+  padding-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5e7de;
+    min-height: 100vh;
+    font-family: 'Holistic Haircut', sans-serif;
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 50px;
+    background-color: #fff;
+    border-bottom: 2px solid #333;
+  }
+  
+  .logo-section img {
+    width: 100px;
+  }
+  
+  .nav-menu ul {
+    display: flex;
+    list-style-type: none;
+    gap: 20px;
+  }
+  
+  .nav-menu ul li {
+    font-size: 1.1rem;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .nav-menu ul li:hover {
+    color: #F6A21E;
+  }
+  
+  /* Contact Form Section */
+  .form-section {
+    margin: 40px 0;
+    text-align: center;
+  }
+  
+  .form-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    letter-spacing: 1px;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .contact-form input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .upload-button {
+    background-color: #288070;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .upload-button:hover {
+    background-color: #F6A21E;
+  }
+  
+  /* Footer */
+  .footer {
+    margin-top: auto;
+    width: 100%;
+  }
+  

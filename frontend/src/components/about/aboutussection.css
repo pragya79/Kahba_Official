@@ -1,0 +1,111 @@
+/* Styling for the About section */
+@font-face {
+    font-family: 'Holistic Haircut';
+    src: url('../../assets/holistic_haircut/HolisticHaircutDEMO-Regular.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.about-section {
+    background-color: #F6A21E;
+    padding: 40px;
+    display: flex;
+    height: 100vh; /* Keep 100vh for desktop view */
+    width: 100%;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.quote-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.quote-image {
+    height: 4rem;
+    margin-left: 15rem;
+    margin-top: 5rem;
+}
+
+.about-text {
+    margin-left: 1rem;
+    margin-top: 9rem;
+    font-size: 1.75rem;
+    color: #333333;
+    line-height: 1.6;
+    font-family: 'Arial', sans-serif;
+    max-width: 800px;
+}
+
+.know-more {
+    margin-top: 33rem;
+}
+
+.know-more-button {
+    margin-top: 33rem;
+    cursor: pointer;
+    height: 3rem;
+    background-color: #4B8378;
+    color: black;
+    border: none;
+    font-size: 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'Holistic Haircut', sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.know-more-button:hover {
+    background-color: #222222;
+    color: #F6A21E;
+}
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+    .about-section {
+        height: auto; /* Adjust height to cover content on mobile */
+        padding: 20px; /* Reduce padding for mobile */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .quote-container {
+        flex-direction: column; /* Stack image and text vertically */
+        align-items: center;
+    }
+
+    .quote-image {
+        margin-left: 0;
+        margin-top: 2rem;
+        height: 3rem; /* Reduce size for mobile */
+    }
+
+    .about-text {
+        margin-left: 0;
+        margin-top: 1rem;
+        font-size: 1.2rem; /* Reduce font size for mobile */
+        text-align: center; /* Center the text on mobile */
+        max-width: 100%; /* Allow full width text on mobile */
+    }
+
+    .know-more {
+        margin-top: auto; /* Push the button towards the bottom */
+        display: flex;
+        justify-content: center;
+    }
+
+    .know-more-button {
+        font-size: 1.2rem; /* Reduce button size for mobile */
+        height: 2.5rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem; /* Adds space at the bottom for mobile */
+    }
+}
