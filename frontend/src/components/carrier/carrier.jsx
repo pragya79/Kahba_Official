@@ -34,7 +34,7 @@ const CarrierUs = () => {
   console.log('Submitting data:', data);
 
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/carrier`, data, {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL.replace(/\/$/, '')}/api/carrier`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
