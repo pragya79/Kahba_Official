@@ -9,27 +9,40 @@ dotenv.config({ path: './.env' });
 
 const app = express();
 
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://kahba.netlify.app',
-  methods: ['GET', 'POST'], 
-  allowedHeaders: ['Content-Type'], 
-}));
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'https://kahba.netlify.app',
+  'http://localhost:3000', 
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add headers as needed
+    credentials: true, // If you need to send cookies or auth headers
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection failed:', err.message));
 
-
 app.use('/api', userRoutes);
 app.use('/api', carrierRoutes);
-
 
 app.get('/', (req, res) => {
   res.json({ message: 'Backend API is running' });

@@ -25,26 +25,33 @@ const CarrierUs = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = new FormData();
-    data.append('name', formData.name);
-    data.append('phone', formData.phone);
-    data.append('email', formData.email);
-    data.append('resume', formData.resume);
-    console.log('Submitting data:', data);
+  e.preventDefault();
+  const data = new FormData();
+  data.append('name', formData.name);
+  data.append('phone', formData.phone);
+  data.append('email', formData.email);
+  data.append('resume', formData.resume);
+  console.log('Submitting data:', data);
 
-
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/carrier`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      alert('Resume submitted successfully!');
-    } catch (error) {
-      alert('Error submitting the resume');
+  try {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/carrier`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    alert('Resume submitted successfully!');
+    console.log('Response:', response.data);
+  } catch (error) {
+    console.error('Error submitting the resume:', error);
+    if (error.response) {
+      alert(`Error: ${error.response.data.error || 'Failed to submit resume'}`);
+    } else if (error.request) {
+      alert('Error: No response received from the server');
+    } else {
+      alert(`Error: ${error.message}`);
     }
-  };
+  }
+};
 
   return (
     <div className="contact-us-page">
