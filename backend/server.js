@@ -12,6 +12,7 @@ const app = express();
 // Define allowed origins
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'https://kahba.netlify.app',
+  'https://kahba.netlify.app/careers',
   'http://localhost:3000', 
 ];
 
