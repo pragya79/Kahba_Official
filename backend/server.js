@@ -13,6 +13,7 @@ const app = express();
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'https://kahba.netlify.app',
   'http://localhost:3000',
+  'https://www.kahbadesignstudio.com'
 ];
 
 app.use(
