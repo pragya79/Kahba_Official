@@ -36,14 +36,13 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database Connection
 const connectToMongoDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
-      bufferTimeoutMS: 20000,
+      serverSelectionTimeoutMS: 10000,
+
     });
     console.log('MongoDB connected');
   } catch (err) {
@@ -64,6 +63,7 @@ app.use(async (req, res, next) => {
     await ensureDbConnection();
     next();
   } catch (error) {
+    console.error('DB Connection Middleware Error:', error.message);
     res.status(500).json({ error: 'Database connection failed' });
   }
 });
@@ -75,4 +75,18 @@ app.get('/', (req, res) => {
   res.json({ message: 'Backend API is running' });
 });
 
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  (async () => {
+    try {
+      await ensureDbConnection();
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    } catch (error) {
+      console.error('Failed to start server:', error.message);
+      process.exit(1);
+    }
+  })();
+}
 export default app;
