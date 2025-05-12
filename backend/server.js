@@ -9,12 +9,11 @@ dotenv.config({ path: './.env' });
 
 const app = express();
 
-// CORS configuration
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'https://kahba.netlify.app',
   'http://localhost:3000',
   'https://kahbadesignstudio.com',
-  'https://www.kahbadesignstudio.com'
+  'https://www.kahbadesignstudio.com',
 ];
 
 app.use(
@@ -43,32 +42,37 @@ const connectToMongoDB = async () => {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, 
+      serverSelectionTimeoutMS: 5000,
       bufferTimeoutMS: 20000,
     });
     console.log('MongoDB connected');
   } catch (err) {
     console.error('MongoDB connection failed:', err.message);
-    process.exit(1);
+    throw new Error('Database connection failed');
   }
 };
 
-const startServer = async () => {
-  await connectToMongoDB();
-
-  app.use('/api', userRoutes);
-  app.use('/api', carrierRoutes);
-
-  app.get('/', (req, res) => {
-    res.json({ message: 'Backend API is running' });
-  });
-
-  // const PORT = process.env.PORT || 5000;
-  // app.listen(PORT, () => {
-  //   console.log(`Server running on port ${PORT}`);
-  // });
+let dbConnected = false;
+const ensureDbConnection = async () => {
+  if (!dbConnected) {
+    await connectToMongoDB();
+    dbConnected = true;
+  }
 };
+app.use(async (req, res, next) => {
+  try {
+    await ensureDbConnection();
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Database connection failed' });
+  }
+});
 
-startServer();
+app.use('/api', userRoutes);
+app.use('/api', carrierRoutes);
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Backend API is running' });
+});
 
 export default app;
