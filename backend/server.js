@@ -13,7 +13,8 @@ const app = express();
 const allowedOrigins = [
   process.env.FRONTEND_URL || 'https://kahba.netlify.app',
   'http://localhost:3000',
-  'https://www.kahbadesignstudio.com'
+  'https://kahbadesignstudio.com', // Add the correct frontend domain
+  'https://www.kahbadesignstudio.com',
 ];
 
 app.use(
@@ -42,32 +43,42 @@ const connectToMongoDB = async () => {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, 
+      serverSelectionTimeoutMS: 5000,
       bufferTimeoutMS: 20000,
     });
     console.log('MongoDB connected');
   } catch (err) {
     console.error('MongoDB connection failed:', err.message);
-    process.exit(1);
+    // Don't exit the process; let the request handler return an error
+    throw new Error('Database connection failed');
   }
 };
 
-const startServer = async () => {
-  await connectToMongoDB();
-
-  app.use('/api', userRoutes);
-  app.use('/api', carrierRoutes);
-
-  app.get('/', (req, res) => {
-    res.json({ message: 'Backend API is running' });
-  });
-
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+// Connect to MongoDB when the function is invoked
+// Use a promise to handle the connection state
+let dbConnected = false;
+const ensureDbConnection = async () => {
+  if (!dbConnected) {
+    await connectToMongoDB();
+    dbConnected = true;
+  }
 };
 
-startServer();
+// Middleware to ensure DB connection before handling requests
+app.use(async (req, res, next) => {
+  try {
+    await ensureDbConnection();
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Database connection failed' });
+  }
+});
+
+app.use('/api', userRoutes);
+app.use('/api', carrierRoutes);
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Backend API is running' });
+});
 
 export default app;
